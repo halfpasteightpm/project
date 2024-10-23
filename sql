@@ -1,7 +1,8 @@
 CREATE DATABASE Restaurant;
 USE Restaurant;
+
 CREATE TABLE Customers{
-CustomerID INT,
+CustomerID INT PRIMARY KEY,
 FirstName VARCHAR(50) NOT NULL,
 LastName VARCHAR(50) NOT NULL,
 Phone VARCHAR(15) NOT NULL,
@@ -11,24 +12,30 @@ Adress VARCHAR(100),
 BonusPoints INT,
 CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
 };
+
 CREATE TABLE Orders{
 OrderID INT,
 CustomerID INT,
 OrderDate DATETME DEFAULT CURRENT_TIMESTAMP,
 
 };
+
 CREATE TABLE Reservations{
 
 };
+
 CREATE TABLE Categories{
 
 };
+
 CREATE TABLE Menu{
 
 };
+
 CREATE TABLE Ingridients{
 
 };
+
 CREATE TABLE Menuingridients{
 
 };
