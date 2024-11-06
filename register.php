@@ -13,7 +13,7 @@ $email = $_POST['email'];
 $phone = $_POST['phone'];
 
 $stmt = $conn->prepare("INSERT INTO customers (firstname, lastname, email, phone) VALUES (?, ?, ?,?)");
-$stmt->bind_param("ssss", $firstname, $lastname, $email, $phone); // "sss" означает, что все три параметра - строковые
+$stmt->bind_param("ssss", $firstname, $lastname, $email, $phone); 
 
 if ($stmt->execute()) {
     echo "Данные успешно сохранены.";
