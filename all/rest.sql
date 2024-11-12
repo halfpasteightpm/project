@@ -5,33 +5,25 @@ create table customers
 (CustomerID int primary key auto_increment,
 Firstname varchar(50),
 Lastname varchar(50),
-Phone varchar(15),
+Phone varchar(11),
 Email varchar(50),
 Address varchar(255),
-BonusPoints int default 0,
 CreatedAt datetime default current_timestamp
 );
 
 create table customerspasswords
 (PasswordID int primary key auto_increment,
-CustomerID int,
 Passwordencrypt varbinary(255),
-foreign key (CustomerId) references customers(customerid)
 );
 
-create table categories
-(CategoryId int primary key auto_increment,
-CategoryName varchar(50)
-);
+
 
 create table menuitems
 (MenuItemID int primary key auto_increment,
 MenuItemName varchar(100),
 DescriptionItem text,
 Price decimal(10,2),
-CategoryId int,
 Weight decimal(10,2),
-foreign key (categoryId) references categories(categoryId)
 );
 
 create table tables
