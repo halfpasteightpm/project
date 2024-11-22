@@ -9,6 +9,14 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 
 $sql="select menuitemid,menuitemname,price from menuitems";
 $result=$conn->query($sql);
+$conn->close(); 
+
+session_start();
+if (!isset($_SESSION['customerid'])) {
+    $redirect_url =  $_SERVER['REQUEST_URI'];
+    header("Location: registersignin.php?redirect_url=" . urlencode($redirect_url));
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -26,14 +34,11 @@ $result=$conn->query($sql);
             <a href="main.html" class="button">Main</a>
         </div>
     </header>
-    
 
-<?php
-$conn->close(); 
-?>
     <main>
     <div class="order-form">
        <form action="submit_order.php" method="POST">
+       <input  id="address" name="address" placeholder="address" required><br>
           <?php
           if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {

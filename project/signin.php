@@ -1,51 +1,40 @@
 <?php
-$servername = "localhost"; 
-$username = "root";
-$password = ""; 
-$dbname = "restaurantdb1"; 
+
+session_start();
+$redirect_url = isset($_GET['redirect_url']) ? $_GET['redirect_url'] : '/default.php';
+?>
 
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+<!DOCTYPE html>
+<html lang="eng">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Sign in</title>
+</head>
+<body>
+    <header>
+        <h1>Sign in</h1>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto+Mono:wght@100&display=swap" rel="stylesheet">
+        <div class="button-container">
+            <a href="main.html" class="button">Main</a>
+            
+        </div>
+    </header>
+    <main>
+        <form action="signinin.php" method="post">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="example@example.com" required><br>
 
+            <label for="password">Password:</label>
+            <input type="password" id="password" pattern="[A-Za-z0-9]+"  name="password" placeholder="Only letters and numbers" required><br>
 
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-
-    if (!preg_match('/^[a-zA-Z0-9.]+@[a-zA-Z0-9.]+\.[a-zA-Z]{2,}$/', $email)) {
-        die("Error: wrong email ");
-    }
-    if (!preg_match("/^[A-Za-z0-9]+$/", $password)) {
-        die("Error: first name only letters");
-    }
-
-    $stmt = $conn->prepare("SELECT customerid FROM customers WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    
-    $result = $stmt->get_result();
-    $customer = $result->fetch_assoc();
-    if ($customer) {
-        $stmt = $conn->prepare("SELECT AES_DECRYPT(passwordencrypt, 'key') AS decrypted_password FROM customerspasswords WHERE passwordid = ?");
-        $stmt->bind_param("i", $customer['customerid']);
-        $stmt->execute();
-        $result = $stmt->get_result();
-    
-        if ($psswrd = $result->fetch_assoc()) {
-            $decryptedPassword = $psswrd['decrypted_password'];
-            if ($password === $decryptedPassword) {
-                echo "Y!";
-            } else {
-                echo "Wrond password";
-            }
-        } else {
-            echo "Ошибка получения учетных данных.";
-        }
-    }
-    else {
-        echo "net takogo email";
-    }
-    $stmt->close();
-}
+            <input type="submit" class="submit" value="Sign in" >
+        </form>
+    </main>
+    <footer>
+        <p>© 2 0 2 4 </p>
+    </footer>
+</body>
+</html>

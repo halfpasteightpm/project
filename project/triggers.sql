@@ -14,6 +14,6 @@ FOR EACH ROW
 BEGIN
     IF CHAR_LENGTH(NEW.phone) != 11 THEN
         SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Phone number must be exactly 11 characters long';
+        SET MESSAGE_TEXT = 'Phone number must be exactly 10 characters long';
     END IF;
 END;
