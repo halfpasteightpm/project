@@ -26,31 +26,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $customerid = $_SESSION['customerid'];
     $reservationdate = $_POST['reservationdate'];
 
-    // Get the current time and time three hours from now
+
     $currentDateTime = new DateTime();
     $twoHoursLater = clone $currentDateTime;
     $twoHoursLater->add(new DateInterval('PT2H'));
 
-    // Convert reservation date to DateTime
+
     $reservationDateTime = new DateTime($reservationdate);
 
-    // Check if reservationDateTime falls within the next three hours
     if ($reservationDateTime >= $currentDateTime && $reservationDateTime <= $twoHoursLater) {
         
-        // Prepare formatted date strings
-        $currentFormatted = $currentDateTime->format('Y-m-d H:i:s');
-        $threeHoursLaterFormatted = $twoHoursLater->format('Y-m-d H:i:s');
 
-        // Query to count reservations in the next three hours
+        $currentFormatted = $currentDateTime->format('Y-m-d H:i:s');
+        $twoHoursLaterFormatted = $twoHoursLater->format('Y-m-d H:i:s');
+
+
         $stmt = $conn->prepare("SELECT COUNT(*) FROM reservations WHERE reservationdate BETWEEN ? AND ?");
-        $stmt->bind_param("ss", $currentFormatted, $threeHoursLaterFormatted);
+        $stmt->bind_param("ss", $currentFormatted, $twoHoursLaterFormatted);
         $stmt->execute();
         $stmt->bind_result($count);
         $stmt->fetch();
         $stmt->close();
 
         if ($count > 10) {
-            echo "Choose a different time. There are already bookings within the next three hours.";
+            echo "Choose a different time. There are already bookings within the next two hours.";
         } else {
             $insertStmt = $conn->prepare("INSERT INTO reservations (customerid, reservationdate) VALUES (?, ?)");
             $insertStmt->bind_param("is", $customerid, $reservationdate);
